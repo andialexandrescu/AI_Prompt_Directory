@@ -1,0 +1,11 @@
+{
+  "development": {
+    "storage": "db_ai_prompt_dir.sqlite",
+    "dialect": "sqlite"
+  },
+  "test": {
+    "storage": ":memory:",
+    "dialect": "sqlite",
+    "logging": false
+  }
+}

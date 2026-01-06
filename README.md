@@ -6,7 +6,7 @@
 
 Like Goodreads for developers, it provides endpoints for browsing and rating prompts by topic, comparing performance across major LLM providers (OpenAI, Claude, etc.), and engaging in provider-specific discussion threads.
 
-**The technology stack** consists of a Node.js backend API using Express.js as the http server framework, JWT auth and role-based access control, GraphQL API, and Sequelize ORM with SQLite for structured data and relationship management. Interacting with the API is possible via Altair for GraphQL queries/ Bruno for http requests.
+**The technology stack** consists of a Node.js backend API using Express.js as the http server framework, JWT auth and role-based access control, GraphQL API, and Sequelize ORM with SQLite for structured data and relationship management. Interacting with the API is possible via Altair for GraphQL queries.
 
 [The type of database chosen is a persistent database, since kept in-memory database would only make sense if we decided to implement GitHub Automated testing (the case for the db_sequelize_assignment)]
 
