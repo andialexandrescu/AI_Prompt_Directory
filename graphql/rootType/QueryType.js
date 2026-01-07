@@ -2,6 +2,8 @@ const { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt
 const UserType = require('../types/UserType');
 const db = require('../../models');
 const { getAllUsers, getUserById } = require('../queries/userQuery');
+const { getAllPrompts, getPromptById } = require('../queries/promptQuery');
+const { getLabelById, getAllLabels } = require('../queries/labelQuery');
 // locul in care se adauga toate query-urile pe care le voi defini, pentru ca logica sa fie inclusa in app.js const graphQLHandler
 
 const QueryType = new GraphQLObjectType({
@@ -13,6 +15,10 @@ const QueryType = new GraphQLObjectType({
         },
         getAllUsers,
         getUserById,
+        getAllPrompts,
+        getPromptById,
+        getLabelById,
+        getAllLabels,
     },
 });
 

@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'promptId',
         otherKey: 'labelId',
       });
-      Prompt.hasMany(models.Comment, { foreignKey: 'promptId' });
+      //Prompt.hasMany(models.Comment, { foreignKey: 'promptId' });
       Prompt.belongsTo(models.User, { foreignKey: 'createdByUserId', as: 'creator' });
     }
   }
@@ -32,7 +32,7 @@ the link being stored in a join table, PromptLabel (promptId references a promp,
       defaultValue: 'draft',
     }, // if a prompt is being created / needs approval / is posted
     notes: { type: DataTypes.TEXT },
-    createdByUserId: { type: DataTypes.UUID, allowNull: true },
+    createdByUserId: { type: DataTypes.UUID, allowNull: false }, // allowNull: false in order to inject the current user Id in the mutation
   }, {
     sequelize,
     modelName: 'Prompt',

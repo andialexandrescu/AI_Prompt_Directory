@@ -27,6 +27,7 @@ allow a chain reaction where more people use it.
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validateUnique: true,
     },
     status: {
       type: DataTypes.ENUM('approved', 'pending', 'rejected'),
