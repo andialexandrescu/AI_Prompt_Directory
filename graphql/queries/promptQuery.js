@@ -7,8 +7,10 @@ const getAllPrompts = {
   resolve: async () => {
     return db.Prompt.findAll({
       include: [
-        { model: db.Label, through: { attributes: [] } },
-      ], // This eager-loads the labels via the join table, so each returned prompt already has a Labels array
+        { model: db.Label, through: { attributes: [] } }, // The through: { attributes: [] } option is only needed for many to many relationships
+        { model: db.Comment },
+        { model: db.User, as: 'creator' },
+      ], // Eager-loads labels and comments
     });
   }
 };
@@ -20,7 +22,9 @@ const getPromptById = {
     return db.Prompt.findByPk(id, {
       include: [
         { model: db.Label, through: { attributes: [] } },
-      ], // Eager-loading
+        { model: db.Comment },
+        { model: db.User, as: 'creator' },
+      ], // Eager-loads labels and comments
     });
   }
 };

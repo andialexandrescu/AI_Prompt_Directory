@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'promptId',
         otherKey: 'labelId',
       });
-      //Prompt.hasMany(models.Comment, { foreignKey: 'promptId' });
+      Prompt.hasMany(models.Comment, { foreignKey: 'promptId' });
       Prompt.belongsTo(models.User, { foreignKey: 'createdByUserId', as: 'creator' });
     }
   }

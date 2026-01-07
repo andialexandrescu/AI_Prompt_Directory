@@ -13,12 +13,19 @@ query GetPromptById($id: String!) {
       name
       status
     }
+    comments {
+      id
+      content
+    }
+    creator {
+      username
+    }
   }
 }
 ```
 
 ```graphql
-query GetAllPrompts{
+query GetAllPrompts {
   getAllPrompts {
     id
     topic
@@ -27,6 +34,13 @@ query GetAllPrompts{
       id
       name
       status
+    }
+    comments {
+      id
+      content
+    }
+    creator {
+      username
     }
   }
 }
@@ -38,16 +52,26 @@ query GetLabelById($id: Int!) {
     id
     name
     status
+    prompts {
+      id
+      topic
+      content
+    }
   }
 }
 ```
 
 ```graphql
-query GetAllLabels{
+query GetAllLabels {
   getAllLabels {
     id
     name
     status
+    prompts {
+      id
+      topic
+      content
+    }
   }
 }
 ```
@@ -98,5 +122,74 @@ mutation ValidateLabel($id: Int!, $status: String!) {
 {
   "id": 19,
   "status": "approved"
+}
+```
+
+```graphql
+query GetAllComments{
+  getAllComments {
+    id
+    content
+    createdAt
+    updatedAt
+    prompt {
+      id
+      topic
+      content
+      creator {
+        username
+      }
+    }
+    user {
+      username
+    }
+  }
+}
+```
+
+```graphql
+query GetCommentById($id: Int!) {
+  getCommentById(id: $id) {
+    id
+    content
+    createdAt
+    updatedAt
+    prompt {
+      id
+      topic
+      content
+      creator {
+        username
+      }
+    }
+    user {
+      username
+    }
+  }
+}
+```
+
+```graphql
+mutation {
+  createComment(
+    input: {
+      content: "This is a great prompt! Very helpful."
+      promptId: "f1fd0e46-bff5-4aab-86a4-beab4dfcbf42"
+    }
+  ) {
+    id
+    content
+    createdAt
+    updatedAt
+    prompt {
+      id
+      topic
+      content
+    }
+    user {
+      id
+      username
+    }
+  }
 }
 ```
