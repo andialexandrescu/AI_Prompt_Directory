@@ -33,15 +33,15 @@ There will be two user roles: admin (dealing with posts to delete them (if they 
 
 ## LLM provider ranking workflow
 
-### User creates one or more evaluation posts based on existing prompt post => Admin highlights interesting evaluations, which are displayed for each LLM provider => Results are aggregated based on user's evaluation rating (1-10) => LLM providers have an assigned ranking number based on evaluation results ratings
+### User creates one or more evaluation posts based on existing prompt post => Admin highlights interesting evaluations, which are displayed for each LLM models => Results are aggregated based on user's evaluation rating (1-10) => LLM providers have an assigned ranking number based on evaluation results ratings => LLM Models can be sorted asc or desc based on contextWindow and speedTokensPerSec parameters
 
-1. Imagine a user giving the same prompt to multiple LLM providers, that prompt will be evaluated for each one, therefore there will be multiple evaluations for one single prompt post, which will then be used to rank LLM providers. Only after user posts the prompt suggestion, the user is able to create one or more LLM-evaluation prompt results which will be linked to an existing LLM provider.
+1. Imagine a user giving the same prompt to multiple LLM models, that prompt will be evaluated for each one, therefore there will be multiple evaluations for one single prompt post, which will then be used to rank LLM providers. Any user can submit an evaluation based on a posted prompt, regardless if they represent the prompt's autho or not. Only after user posts the prompt suggestion, the user is able to create one or more LLM-evaluation prompt results are linked to an existing LLM model.
 
-2. An admin highlights evaluations, whose statuses will change from **Not_Highlighted** to **Highlighted_By_Admin**. These evaluation posts appear for each LLM chatbot, showing only the top 10 most recent ones highlighted by admins for that provider.
+2. An admin highlights evaluations, whose statuses will change from **not_highlighted** to **highlighted_by_admin**. These evaluation posts appear for each LLM chatbot, showing only the top 10 most recent ones highlighted by admins for that provider.
 
 3. Results are aggregated based on user's evaluation rating (1-10)
 
-4. LLM providers have an assigned ranking number based on evaluation results ratings
+4. LLM providers have an assigned ranking number based on evaluation results ratings. Since ratings are assigned to individual LLM models, each provider's ranking is calculated by averaging the ratings of all its associated models.
 
 ## LLM provider chatroom workflow
 
