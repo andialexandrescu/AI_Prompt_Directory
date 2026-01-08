@@ -193,3 +193,24 @@ mutation {
   }
 }
 ```
+
+```graphql
+query {
+  getAllPrompts(offset: 0, limit: 5) {
+    id
+    topic
+  }
+  getAllLabels(offset: 10, limit: 20) {
+    id
+    name
+  }
+  getAllComments(limit: 15) {
+    id
+    content
+  }
+  getAllUsers {
+    id
+    username
+  }
+}
+```

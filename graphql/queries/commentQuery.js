@@ -14,8 +14,16 @@ const getCommentById = {
 
 const getAllComments = {
     type: new GraphQLList(CommentType),
-    resolve: async () => {
-        return db.Comment.findAll({ include: [db.User, db.Prompt] });
+    args: {
+        offset: { type: GraphQLInt, defaultValue: 0 },
+        limit: { type: GraphQLInt, defaultValue: 10 }
+    },
+    resolve: async (_, { offset, limit }) => {
+        return db.Comment.findAll({ 
+            offset,
+            limit,
+            include: [db.User, db.Prompt] 
+        });
     }
 };
 

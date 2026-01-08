@@ -45,8 +45,10 @@ const createPromptMutation = {
                 }
             }
 
-            if (allLabels.length) { // If there are any labels set to pending_approval, else posted
-                promptState = 'pending_approval';
+            // Set state to pending_approval only if any attached label is pending
+            if (allLabels.length) {
+                const hasPending = allLabels.some(l => l.status === 'pending');
+                promptState = hasPending ? 'pending_approval' : 'posted';
             }
             const prompt = await db.Prompt.create({ topic, content, notes, createdByUserId, state: promptState }, { transaction: t });
 

@@ -16,8 +16,14 @@ const getLabelById = {
 
 const getAllLabels = {
     type: new GraphQLList(LabelType),
-    resolve: async () => {
+    args: {
+        offset: { type: GraphQLInt, defaultValue: 0 },
+        limit: { type: GraphQLInt, defaultValue: 10 }
+    },
+    resolve: async (_, { offset, limit }) => {
         return db.Label.findAll({ 
+            offset,
+            limit,
             include: { model: db.Prompt, through: { attributes: [] } }
         });
     }
