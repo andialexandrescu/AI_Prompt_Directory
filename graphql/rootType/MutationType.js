@@ -4,6 +4,7 @@ const createPromptMutation = require("../mutations/createPromptMutation");
 const createLabelMutation = require("../mutations/createLabelMutation");
 const validateLabelMutation = require("../mutations/validateLabelMutation");
 const createCommentMutation = require("../mutations/createCommentMutation");
+const createEvaluationMutation = require("../mutations/createEvaluationMutation");
 
 const MutationType = new GraphQLObjectType({
     name: 'Mutation',
@@ -13,6 +14,7 @@ const MutationType = new GraphQLObjectType({
         createLabel: createLabelMutation,
         validateLabel: validateLabelMutation,
         createComment: createCommentMutation,
+        createEvaluation: createEvaluationMutation,
     },
 });
 

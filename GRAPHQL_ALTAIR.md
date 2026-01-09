@@ -465,3 +465,40 @@ query GetLLMProviderById($id: Int!) {
   }
 }
 ```
+
+```graphql
+mutation CreateEvaluation {
+  createEvaluation(input: {
+    promptId: "16f046ab-0535-43aa-9204-c9824e2ef5a2"
+    llmModelId: 1
+    rating: 9
+    content: "Excellent response!"
+  }) {
+    id
+    rating
+    content
+    status
+    createdAt
+    updatedAt
+    prompt {
+      id
+      topic
+    }
+    evaluator {
+      username
+    }
+    llmModel {
+      id
+      name
+      contextWindow
+      speedTokensPerSec
+      averageRating
+      provider {
+        id
+        name
+        averageRating
+      }
+    }
+  }
+}
+```
