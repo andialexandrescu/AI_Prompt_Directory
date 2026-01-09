@@ -223,6 +223,56 @@ module.exports = {
     });
 
     await queryInterface.bulkInsert('Evaluations', evaluations);
+
+    // sequelize orm
+    const db = require('../models');
+    const { LLMModel, LLMProvider, Evaluation } = db;
+
+    const allModels = await LLMModel.findAll();
+    
+    for (const model of allModels) {
+      const modelResult = await Evaluation.findAll({
+        where: { llmModelId: model.id },
+        attributes: [
+          [queryInterface.sequelize.fn('AVG', queryInterface.sequelize.col('rating')), 'averageRating'],
+          [queryInterface.sequelize.fn('COUNT', queryInterface.sequelize.col('id')), 'evalCount']
+        ],
+        raw: true
+      });
+
+      const modelAverage = modelResult[0].evalCount > 0 ? parseFloat(modelResult[0].averageRating) : null;
+
+      await model.update({ averageRating: modelAverage });
+    }
+
+    const allProviders = await LLMProvider.findAll();
+    
+    for (const provider of allProviders) {
+      const providerModels = await LLMModel.findAll({
+        where: { llmProviderId: provider.id },
+        attributes: ['id']
+      });
+
+      const modelIds = providerModels.map(m => m.id);
+
+      if (modelIds.length === 0) {
+        await provider.update({ averageRating: null });
+        continue;
+      }
+
+      const providerResult = await Evaluation.findAll({
+        where: { llmModelId: modelIds },
+        attributes: [
+          [queryInterface.sequelize.fn('AVG', queryInterface.sequelize.col('rating')), 'averageRating'],
+          [queryInterface.sequelize.fn('COUNT', queryInterface.sequelize.col('id')), 'evalCount']
+        ],
+        raw: true
+      });
+
+      const providerAverage = providerResult[0].evalCount > 0 ? parseFloat(providerResult[0].averageRating) : null;
+
+      await provider.update({ averageRating: providerAverage });
+    }
   },
 
   async down (queryInterface, Sequelize) {

@@ -24,7 +24,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     ranking: {
       type: DataTypes.INTEGER,
-      allowNull: true, // computed based on evalutaion posts later
+      allowNull: true, // computed based on evaluation posts later
+    },
+    averageRating: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      defaultValue: null,
     }
   }, {
     sequelize,
