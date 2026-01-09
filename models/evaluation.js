@@ -91,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
     const modelIds = providerModels.map(m => m.id);
 
     if (modelIds.length === 0) {
-      await provider.update({ averageRating: null }, { hooks: false });
+      await provider.update({ averageRating: null, ranking: null }, { hooks: false });
       return;
     }
 
@@ -107,6 +107,29 @@ module.exports = (sequelize, DataTypes) => {
     const providerAverage = providerResult[0].evalCount > 0 ? parseFloat(providerResult[0].averageRating) : null;
 
     await provider.update({ averageRating: providerAverage }, { hooks: false });
+
+    await updateAllProviderRankings(); // recalculate rankings for ALL providers
   }
+
+  async function updateAllProviderRankings() { // recalculate rankings for all providers based on averageRating
+    const { LLMProvider } = require('./index');
+
+    const providers = await LLMProvider.findAll({ // all providers with their average ratings ordered by rating desc
+      order: [
+        [sequelize.fn('COALESCE', sequelize.col('averageRating'), 0), 'DESC'], // null ratings go to bottom
+        ['id', 'ASC'] // in case two averageRating values are equal sort asc by id
+      ]
+    });
+
+    let currentRank = 1;
+    for (const provider of providers) {
+      const ranking = provider.averageRating !== null ? currentRank : null;
+      await provider.update({ ranking }, { hooks: false });
+      if (provider.averageRating !== null) {
+        currentRank++;
+      }
+    }
+  }
+
   return Evaluation;
 };

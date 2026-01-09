@@ -389,7 +389,7 @@ query GetLLMModelById($id: Int!) {
 
 ```graphql
 query GetAllLLMProviders {
-  getAllLLMProviders(offset: 0, limit: 50) {
+  getAllLLMProviders(offset: 0, limit: 50, sortByRanking: "asc") {
     id
     name
     description

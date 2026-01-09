@@ -273,6 +273,22 @@ module.exports = {
 
       await provider.update({ averageRating: providerAverage });
     }
+
+    const providersWithRatings = await LLMProvider.findAll({
+      order: [
+        [queryInterface.sequelize.fn('COALESCE', queryInterface.sequelize.col('averageRating'), 0), 'DESC'],
+        ['id', 'ASC']
+      ]
+    });
+
+    let currentRank = 1;
+    for (const provider of providersWithRatings) {
+      const ranking = provider.averageRating !== null ? currentRank : null;
+      await provider.update({ ranking });
+      if (provider.averageRating !== null) {
+        currentRank++;
+      }
+    }
   },
 
   async down (queryInterface, Sequelize) {
