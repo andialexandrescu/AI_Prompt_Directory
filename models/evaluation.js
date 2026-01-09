@@ -48,6 +48,65 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Evaluation',
     tableName: 'Evaluations',
+    hooks: {
+      afterCreate: async (evaluation) => {
+        await updateModelAndProviderRatings(evaluation.llmModelId); // since the llm model is connected to llm provider it's easier to just determine the provider based on the llm model's id
+      },
+      afterUpdate: async (evaluation) => {
+        await updateModelAndProviderRatings(evaluation.llmModelId);
+      },
+      afterDestroy: async (evaluation) => {
+        await updateModelAndProviderRatings(evaluation.llmModelId);
+      },
+    },
   });
+
+  // the main reason for this is that hooks work at runtime, meaning they will be useful only when creating evaluations via a graphql mutation
+  // however for seeders it isn't runtime and bulkinsert bypasses the hooks
+  async function updateModelAndProviderRatings(llmModelId) { // using sequelize orm
+    const { LLMModel, LLMProvider, Evaluation } = require('./index');
+
+    const model = await LLMModel.findByPk(llmModelId);
+
+    const modelResult = await Evaluation.findAll({
+      where: { llmModelId: model.id },
+      attributes: [
+        [sequelize.fn('AVG', sequelize.col('rating')), 'averageRating'],
+        [sequelize.fn('COUNT', sequelize.col('id')), 'evalCount']
+      ],
+      raw: true
+    });
+
+    const modelAverage = modelResult[0].evalCount > 0 ? parseFloat(modelResult[0].averageRating) : null;
+
+    await model.update({ averageRating: modelAverage }, { hooks: false }); // prevents recursion
+
+    const provider = await LLMProvider.findByPk(model.llmProviderId);
+
+    const providerModels = await LLMModel.findAll({ // same approach for the aggregation, however the provider's rating is based on all models associated
+      where: { llmProviderId: provider.id },
+      attributes: ['id']
+    });
+
+    const modelIds = providerModels.map(m => m.id);
+
+    if (modelIds.length === 0) {
+      await provider.update({ averageRating: null }, { hooks: false });
+      return;
+    }
+
+    const providerResult = await Evaluation.findAll({ // similar to in clause for join sql query
+      where: { llmModelId: modelIds },
+      attributes: [
+        [sequelize.fn('AVG', sequelize.col('rating')), 'averageRating'],
+        [sequelize.fn('COUNT', sequelize.col('id')), 'evalCount']
+      ],
+      raw: true
+    });
+
+    const providerAverage = providerResult[0].evalCount > 0 ? parseFloat(providerResult[0].averageRating) : null;
+
+    await provider.update({ averageRating: providerAverage }, { hooks: false });
+  }
   return Evaluation;
 };

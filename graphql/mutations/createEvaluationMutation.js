@@ -32,6 +32,7 @@ const createEvaluationMutation = {
             throw new Error('Cannot evaluate a prompt that is not posted');
         }
 
+        // the afterCreate hook will automatically update averageRating for model and provider
         const evaluation = await db.Evaluation.create({
             promptId,
             userId,
