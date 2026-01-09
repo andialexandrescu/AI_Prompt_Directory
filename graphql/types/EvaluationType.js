@@ -24,8 +24,8 @@ const EvaluationType = new GraphQLObjectType({
         prompt: {
             type: PromptType,
             resolve: async (evaluation) => {
-                const evaluation = await evaluation.getPrompt();
-                return evaluation;
+                const prompt = await evaluation.getPrompt();
+                return prompt;
             }
         },
         evaluator: {
@@ -38,13 +38,12 @@ const EvaluationType = new GraphQLObjectType({
         llmModel: {
             type: LLMModelType,
             resolve: async (evaluation) => {
-                const models = [];
                 if (evaluation.LLMModel) {
-                    models = evaluation.LLMModel;
+                    return evaluation.LLMModel;
                 }
-
-                models = await evaluation.getLLMModel();
-                return models;
+                if (evaluation.getLLMModel) {
+                    return await evaluation.getLLMModel();
+                }
             }
         },
     }),

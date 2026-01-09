@@ -28,13 +28,12 @@ const LLMModelType = new GraphQLObjectType({
             evaluations: {
                 type: new GraphQLList(EvaluationType),
                 resolve: async (llmModel) => {
-                    const evaluations = [];
                     if (llmModel.Evaluations) { // eager loading in query/ mutation resolvers (to be implemented)
-                        evaluations = llmModel.Evaluations;
+                        return llmModel.Evaluations;
                     }
-                    
-                    evaluations = await llmModel.getEvaluations(); // sequelize
-                    return evaluations;
+                    if (llmModel.getEvaluations) {
+                        return await llmModel.getEvaluations(); // sequelize
+                    }
                 }
             },
         };

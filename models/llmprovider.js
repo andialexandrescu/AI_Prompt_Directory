@@ -3,7 +3,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class LLMProvider extends Model {
     static associate(models) {
-      LLMProvider.hasMany(models.Evaluation, { foreignKey: 'llmProviderId' });
+      LLMProvider.hasMany(models.LLMModel, { foreignKey: 'llmProviderId' });
     }
   }
   LLMProvider.init({

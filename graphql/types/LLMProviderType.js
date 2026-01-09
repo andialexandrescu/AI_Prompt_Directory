@@ -17,13 +17,12 @@ const LLMProviderType = new GraphQLObjectType({
             models: {
                 type: new GraphQLList(LLMModelType),
                 resolve: async (llmProvider) => {
-                    const models = [];
                     if (llmProvider.LLMModels) {
-                        models = llmProvider.LLMModels;
+                        return llmProvider.LLMModels;
                     }
-
-                    models = await llmProvider.getLLMModels();
-                    return models;
+                    if (llmProvider.getLLMModels) {
+                        return await llmProvider.getLLMModels();
+                    }
                 }
             }
         };

@@ -5,6 +5,9 @@ const { getAllUsers, getUserById } = require('../queries/userQuery');
 const { getAllPrompts, getPromptById } = require('../queries/promptQuery');
 const { getLabelById, getAllLabels } = require('../queries/labelQuery');
 const { getCommentById, getAllComments } = require('../queries/commentQuery');
+const { getAllEvaluations, getEvaluationById } = require('../queries/evaluationQuery');
+const { getAllLLMModels, getLLMModelById } = require('../queries/llmModelQuery');
+const { getAllLLMProviders, getLLMProviderById } = require('../queries/llmProviderQuery');
 // locul in care se adauga toate query-urile pe care le voi defini, pentru ca logica sa fie inclusa in app.js const graphQLHandler
 
 const QueryType = new GraphQLObjectType({
@@ -22,6 +25,12 @@ const QueryType = new GraphQLObjectType({
         getAllLabels,
         getCommentById,
         getAllComments,
+        getAllEvaluations,
+        getEvaluationById,
+        getAllLLMModels,
+        getLLMModelById,
+        getAllLLMProviders,
+        getLLMProviderById,
     },
 });
 
