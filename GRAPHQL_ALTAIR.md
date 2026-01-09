@@ -502,3 +502,76 @@ mutation CreateEvaluation {
   }
 }
 ```
+
+```graphql
+mutation HighlightEvaluation($id: String!) {
+  updateEvaluationHighlight(id: $id, highlight: true) {
+    id
+    status
+    rating
+    content
+    llmModel {
+      name
+      averageRating
+    }
+    evaluator {
+      username
+    }
+  }
+}
+```
+
+```graphql
+mutation UnhighlightEvaluation($id: String!) {
+  updateEvaluationHighlight(id: $id, highlight: false) {
+    id
+    status
+    rating
+    content
+    llmModel {
+      name
+    }
+    evaluator {
+      username
+    }
+  }
+}
+```
+
+```graphql
+query GetUnhighlightedForModel {
+  getHighlightedEvaluationsByModel(llmModelId: 1, limit: 10, highlighted: false) {
+    id
+    rating
+    content
+    createdAt
+    evaluator {
+      username
+    }
+    prompt {
+      topic
+    }
+    llmModel {
+      name
+    }
+  }
+}
+```
+
+```graphql
+query GetHighlightedForProvider {
+  getHighlightedEvaluationsByProvider(llmProviderId: 1, limit: 10) {
+    id
+    rating
+    content
+    createdAt
+    evaluator {
+      username
+    }
+    llmModel {
+      name
+      contextWindow
+    }
+  }
+}
+```
