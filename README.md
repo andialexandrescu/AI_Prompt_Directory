@@ -8,10 +8,15 @@ Like Goodreads for developers, it provides endpoints for browsing and rating pro
 
 **The technology stack** consists of a Node.js backend API using Express.js as the http server framework, JWT auth and role-based access control, GraphQL API, and Sequelize ORM with SQLite for structured data and relationship management. Interacting with the API is possible via Altair for GraphQL queries.
 
-[The type of database chosen is a persistent database, since kept in-memory database would only make sense if we decided to implement GitHub Automated testing (the case for the db_sequelize_assignment)]
+[The type of database chosen is both a persistent database to test GraphQL queries and mutations and an in-memory one since an in-memory database only makes sense knowing we decided to integrate tests in our workflow, however they are not as complex as GitHub Automated testing (the case for the db_sequelize_assignment)]
 
 ## Features
-There will be two user roles: admin (dealing with posts to delete them (if they are offensive) or to make a normal user an admin or to aprove prompt suggestion labels specific for each post)
+There will be two user roles: 
+- admin, who is responsible to
+    - approve or reject prompt posts' newly added labels, fact that results in prompts being posted (posted state) or deleted; prompts that are in pending_approval or draft state only indicate the need to validate the new labels proposed by the prompt's creator or that the creator is still working on that prompt
+    - highlight or unhighlight evaluations of how certain llm models responded to a given prompt
+    - delete inappropiate messages in llm providers' chatrooms
+- (normal) user
 
 ## Prompt suggestion and review workflow
 
@@ -33,15 +38,22 @@ There will be two user roles: admin (dealing with posts to delete them (if they 
 
 ## LLM provider ranking workflow
 
-### User creates one or more evaluation posts based on existing prompt post => Admin highlights interesting evaluations, which are displayed for each LLM provider => Results are aggregated based on user's evaluation rating (1-10) => LLM providers have an assigned ranking number based on evaluation results ratings
+### User creates one or more evaluation posts based on existing prompt post => Admin highlights interesting evaluations, which are displayed for each LLM models => Results are aggregated based on user's evaluation rating (1-10), which results in LLM providers to have an assigned ranking number based on these evaluation results ratings => LLM Providers can be sorted asc or desc based on rating => LLM models can be filtered based on values relative to contextWindow and speedTokensPerSec parameters (below/ above) => 
 
-1. Imagine a user giving the same prompt to multiple LLM providers, that prompt will be evaluated for each one, therefore there will be multiple evaluations for one single prompt post, which will then be used to rank LLM providers. Only after user posts the prompt suggestion, the user is able to create one or more LLM-evaluation prompt results which will be linked to an existing LLM provider.
+1. Imagine a user giving the same prompt to multiple LLM models, that prompt will be evaluated for each one, therefore there will be multiple evaluations for one single prompt post, which will then be used to rank LLM providers. Any user can submit an evaluation based on a posted prompt, regardless if they represent the prompt's author or not. Only after user posts the prompt suggestion (posted state), the user is able to create one or more LLM-evaluation prompt results,  linked to an existing LLM model.
 
-2. An admin highlights evaluations, whose statuses will change from **Not_Highlighted** to **Highlighted_By_Admin**. These evaluation posts appear for each LLM chatbot, showing only the top 10 most recent ones highlighted by admins for that provider.
+2. An admin highlights evaluations, whose statuses will change from **not_highlighted** to **highlighted_by_admin** interchangeably at admin's request. These evaluation posts appear for each LLM model or each LLM Provider, showing only the top most recent ones highlighted by admins for that provider. They can also be filtered based on being highlighted or not and based on model or provider.
 
-3. Results are aggregated based on user's evaluation rating (1-10)
+3. Results are aggregated based on user's evaluation rating (1-10). Each LLM model and LLM provider stores an **averageRating** field that is updated based on evaluations. Additionally, detailed **rating aggregation queries** are available that provide comprehensive analytics, including:
+   - total number of evaluations
+   - average, minimum, and maximum ratings
+   - rating distribution showing count for each rating value 1-10
 
-4. LLM providers have an assigned ranking number based on evaluation results ratings
+4. LLM providers have an assigned ranking number based on evaluation results ratings. Since ratings are assigned to individual LLM models, each provider's ranking is calculated by averaging the ratings of all its associated models. Providers are assigned ordinal rankings (1 being the best, 2 being the second best etc) based on their averageRating in descending order. Providers can be queried and sorted by their ranking asc or desc.
+
+5. LLM models can be filtered and sorted based on their following specs:
+   - **contextWindow** (the maximum number of tokens the model can process in a single request): users can filter models to find those with context windows above or below a specific threshold
+   - **speedTokensPerSec** (the processing speed measured in tokens per second): users can filter to find models above a threshold or below a threshold
 
 ## LLM provider chatroom workflow
 
