@@ -592,3 +592,18 @@ query getLLMModelsGTEContextWindowSpeedTokensPerSec{
   }
 }
 ```
+
+```graphql
+query GetRatingAggregationByModel{
+  getRatingAggregationByModel(llmModelId: 1) {
+    totalEvaluations
+    averageRating
+    minRating
+    maxRating
+    distribution {
+      rating
+      count
+    }
+  }
+}
+```

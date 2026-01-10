@@ -38,13 +38,16 @@ There will be two user roles:
 
 ## LLM provider ranking workflow
 
-### User creates one or more evaluation posts based on existing prompt post => Admin highlights interesting evaluations, which are displayed for each LLM models => Results are aggregated based on user's evaluation rating (1-10), which results in LLM providers to have an assigned ranking number based on these evaluation results ratings => LLM Providers can be sorted asc or desc based on rating => LLM models can be filtered based on values relative to contextWindow and speedTokensPerSec parameters (below/ above)
+### User creates one or more evaluation posts based on existing prompt post => Admin highlights interesting evaluations, which are displayed for each LLM models => Results are aggregated based on user's evaluation rating (1-10), which results in LLM providers to have an assigned ranking number based on these evaluation results ratings => LLM Providers can be sorted asc or desc based on rating => LLM models can be filtered based on values relative to contextWindow and speedTokensPerSec parameters (below/ above) => 
 
 1. Imagine a user giving the same prompt to multiple LLM models, that prompt will be evaluated for each one, therefore there will be multiple evaluations for one single prompt post, which will then be used to rank LLM providers. Any user can submit an evaluation based on a posted prompt, regardless if they represent the prompt's author or not. Only after user posts the prompt suggestion (posted state), the user is able to create one or more LLM-evaluation prompt results,  linked to an existing LLM model.
 
 2. An admin highlights evaluations, whose statuses will change from **not_highlighted** to **highlighted_by_admin** interchangeably at admin's request. These evaluation posts appear for each LLM model or each LLM Provider, showing only the top most recent ones highlighted by admins for that provider. They can also be filtered based on being highlighted or not and based on model or provider.
 
-3. Results are aggregated based on user's evaluation rating (1-10). Each LLM model and LLM provider stores an **averageRating** field that is updated ibased on evaluations.
+3. Results are aggregated based on user's evaluation rating (1-10). Each LLM model and LLM provider stores an **averageRating** field that is updated based on evaluations. Additionally, detailed **rating aggregation queries** are available that provide comprehensive analytics, including:
+   - total number of evaluations
+   - average, minimum, and maximum ratings
+   - rating distribution showing count for each rating value 1-10
 
 4. LLM providers have an assigned ranking number based on evaluation results ratings. Since ratings are assigned to individual LLM models, each provider's ranking is calculated by averaging the ratings of all its associated models. Providers are assigned ordinal rankings (1 being the best, 2 being the second best etc) based on their averageRating in descending order. Providers can be queried and sorted by their ranking asc or desc.
 
