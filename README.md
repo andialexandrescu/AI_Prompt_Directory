@@ -8,10 +8,15 @@ Like Goodreads for developers, it provides endpoints for browsing and rating pro
 
 **The technology stack** consists of a Node.js backend API using Express.js as the http server framework, JWT auth and role-based access control, GraphQL API, and Sequelize ORM with SQLite for structured data and relationship management. Interacting with the API is possible via Altair for GraphQL queries.
 
-[The type of database chosen is a persistent database, since kept in-memory database would only make sense if we decided to implement GitHub Automated testing (the case for the db_sequelize_assignment)]
+[The type of database chosen is both a persistent database to test GraphQL queries and mutations and an in-memory one since an in-memory database only makes sense knowing we decided to integrate tests in our workflow, however they are not as complex as GitHub Automated testing (the case for the db_sequelize_assignment)]
 
 ## Features
-There will be two user roles: admin (dealing with posts to delete them (if they are offensive) or to make a normal user an admin or to aprove prompt suggestion labels specific for each post)
+There will be two user roles: 
+- admin, who is responsible to
+    - approve or reject prompt posts' newly added labels, fact that results in prompts being posted (posted state) or deleted; prompts that are in pending_approval or draft state only indicate the need to validate the new labels proposed by the prompt's creator or that the creator is still working on that prompt
+    - highlight or unhighlight evaluations of how certain llm models responded to a given prompt
+    - delete inappropiate messages in llm providers' chatrooms
+- (normal) user
 
 ## Prompt suggestion and review workflow
 
