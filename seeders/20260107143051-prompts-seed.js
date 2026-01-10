@@ -5,7 +5,7 @@ function createRandomPrompt(createdByUserId) {
   const createdAt = faker.date.past({ years: 0.5 });
   const updatedAt = faker.date.between({ from: createdAt, to: new Date() });
   return {
-    id: faker.string.uuid(),
+    id: faker.datatype.uuid(),
     topic: faker.lorem.sentence(),
     content: faker.lorem.paragraphs(3),
     state: faker.helpers.arrayElement(['draft', 'pending_approval', 'posted']),
@@ -26,7 +26,7 @@ module.exports = {
 
     const predefinedPrompts = [ // First user
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         topic: 'Generating API Documentation',
         content: 'Create documentation for this API endpoint: Endpoint: [HTTP method] [path] Purpose: [brief description] Request parameters: [list parameters] Authentication: [requirements] Response format: [description] Please format the documentation with: Clear and concise descriptions JSON-formatted request and response examples Common error scenarios Markdown formatting',
         state: 'posted',
@@ -36,7 +36,7 @@ module.exports = {
         updatedAt: new Date(2025, 9, 20),
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         topic: 'The System Blueprint Architect',
         content: 'You are a senior software architect specializing in scalable system design for startups and growing companies.  Project Context: - Current application: [DESCRIBE YOUR MVP/PRODUCT] - Expected user growth: [CURRENT USERS → TARGET USERS IN 12-24 MONTHS] - Core functionality: [KEY FEATURES AND USER ACTIONS] - Technology stack: [CURRENT LANGUAGES, FRAMEWORKS, DATABASES] - Budget constraints: [DEVELOPMENT BUDGET, INFRASTRUCTURE COSTS] - Team size: [NUMBER OF DEVELOPERS, EXPERIENCE LEVEL]  Please design a scalable architecture that addresses: 1. System components and their relationships (e.g., microservices vs. monolith decision) 2. Database strategy (scaling, partitioning, caching layers) 3. API design for future integrations and mobile apps 4. Infrastructure recommendations (cloud services, CDN, load balancing) 5. Security considerations at scale 6. Monitoring and observability setup 7. Deployment and CI/CD pipeline structure 8. Cost optimization strategies for each growth phase  Provide a step-by-step plan outlining what to implement immediately and what to defer. Include specific technology recommendations with reasoning.',
         state: 'pending_approval',
@@ -46,7 +46,7 @@ module.exports = {
         updatedAt: new Date(2025, 10, 6),
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         topic: 'The Step-by-Step Code Detective for Debugging',
         content: 'You are an expert debugger helping me solve an issue.  Problem Context: - Language: [YOUR PROGRAMMING LANGUAGE] - Expected behavior: [WHAT SHOULD HAPPEN] - Actual behavior: [WHAT IS HAPPENING INSTEAD] - Error messages (if any): [PASTE ERROR OR "NONE"]  Here is my code: [PASTE YOUR CODE HERE]  Please: 1. Walk through this function line by line 2. Track the value of each variable at each step 3. Identify where the logic breaks down 4. Explain why the bug occurs 5. Provide a corrected version with explanation  Use a "rubber duck debugging" approach - simulate the debugging process using print statements. ',
         state: 'posted',
@@ -57,7 +57,7 @@ module.exports = {
       },
       // Second user
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         topic: 'The MVP Boilerplate Generator',
         content: 'The Copy-Paste Prompt: You are an expert full-stack developer building an MVP for [DESCRIBE YOUR PRODUCT].  Tech Stack: [LIST YOUR TECHNOLOGIES] Key Features: [LIST 3-5 CORE FEATURES] User Types: [DESCRIBE YOUR USERS] Third-party Integrations: [LIST ANY APIs OR SERVICES]  Generate the following: 1. Project folder structure 2. Database schema with relationships 3. API endpoints for core features 4. Authentication system with JWT 5. Frontend components for main user flows 6. Error handling and validation 7. Basic unit tests  Requirements: - Follow [FRAMEWORK] best practices - Include proper error handling - Add input validation - Make code modular and reusable - Include comments explaining key logic - Optimize for performance and scalability  Output each section separately with clear labels.',
         state: 'posted',
@@ -67,7 +67,7 @@ module.exports = {
         updatedAt: new Date(2025, 11, 22),
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         topic: 'Deciding between GraphQL and REST for a new API',
         content: 'Back when I was deciding between GraphQL and REST for our new API, I realized that generic advice wasn’t cutting it. I needed a balanced assessment of both approaches for our specific situation. That’s when I started using the pros and cons strategy, and it’s been my go-to for technical decisions ever since.',
         state: 'pending_approval',
@@ -78,7 +78,7 @@ module.exports = {
       },
       // Third user
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         topic: 'Q&A Prompt Strategy',
         content: 'I stumbled upon this technique after getting burned by half-baked solutions that missed critical requirements. Instead of the AI rushing to give you an answer, you force it to ask clarifying questions first.',
         state: 'posted',

@@ -12,14 +12,17 @@ const MutationType = require('./graphql/rootType/MutationType');
 const jwtMiddleware = require('./graphql/middlewares/jwtMiddleware');
 
 const schema = require('./graphql/schema');
+const db = require('./models');
 
 const graphQLHandler = createHandler({
     schema,
     context: (request) => {
         return {
             user: request.raw.userData,
-        }
+            db,
+        };
     }
+
 });
 app.post('/graphql', jwtMiddleware, graphQLHandler);
 
@@ -27,6 +30,8 @@ app.get('/', (req, res) => {
     console.log(req.body);
     res.send('Hello World!');
 });
+
+
 
 module.exports = {
     app,

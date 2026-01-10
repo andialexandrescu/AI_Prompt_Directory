@@ -36,6 +36,10 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+console.log("ENV:", env);
+console.log("STORAGE:", config.storage);
+console.log("CWD:", process.cwd());
+
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

@@ -136,11 +136,11 @@ module.exports = {
       const createdAt = faker.date.past({ years: 0.5 });
       const updatedAt = faker.date.between({ from: createdAt, to: new Date() });
       return {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         promptId: promptId,
         userId: userId,
         llmModelId: llmModelId,
-        rating: faker.number.int({ min: 1, max: 10 }),
+        rating: faker.datatype.number({ min: 1, max: 10 }),
         content: faker.lorem.paragraph(),
         status: faker.helpers.arrayElement(['not_highlighted', 'highlighted_by_admin']),
         createdAt: createdAt,
@@ -150,7 +150,7 @@ module.exports = {
 
     const predefinedEvaluations = [
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         promptId: prompts[0].id,
         userId: users[0].id,
         llmModelId: modelIds[0],
@@ -161,7 +161,7 @@ module.exports = {
         updatedAt: now,
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         promptId: prompts[1].id,
         userId: users[1].id,
         llmModelId: modelIds[1],
@@ -172,7 +172,7 @@ module.exports = {
         updatedAt: now,
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         promptId: prompts[2].id,
         userId: users[2].id,
         llmModelId: modelIds[2],
@@ -183,7 +183,7 @@ module.exports = {
         updatedAt: now,
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         promptId: prompts[3].id,
         userId: users[3].id,
         llmModelId: modelIds[3],
@@ -194,7 +194,7 @@ module.exports = {
         updatedAt: now,
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         promptId: prompts[4].id,
         userId: users[4].id,
         llmModelId: modelIds[4],

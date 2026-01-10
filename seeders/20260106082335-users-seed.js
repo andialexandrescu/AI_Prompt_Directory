@@ -5,12 +5,13 @@ const { faker } = require('@faker-js/faker');
 const generateHash = (plaintextPassword) => bcrypt.hashSync(plaintextPassword, 3);
 
 function createRandomUser() {
-  const firstName = faker.person.firstName();
-  const lastName = faker.person.lastName();
+  const firstName = faker.name.firstName();
+  const lastName = faker.name.lastName();
+
   return {
-    id: faker.string.uuid(),
-    username: faker.internet.displayName({ firstName, lastName }), // https://fakerjs.dev/api/internet.html#displayname
-    password: faker.internet.password(), //generateHash(faker.internet.password()),
+    id: faker.datatype.uuid(),
+    username: faker.internet.userName(firstName, lastName),
+    password: faker.internet.password(),
     role: "user",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -31,7 +32,7 @@ module.exports = {
     */
     const predefinedUsers = [
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         username: "adm_andi",
         password: generateHash("pass123"),
         role: "admin",
@@ -39,7 +40,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         username: "adm_davide",
         password: generateHash("pass123"),
         role: "admin",
@@ -47,7 +48,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         username: "adm_teo",
         password: generateHash("pass123"),
         role: "admin",
@@ -55,7 +56,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         username: "user_teo",
         password: generateHash("pass123"),
         role: "user",
@@ -63,7 +64,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         username: "user_andra",
         password: generateHash("pass123"),
         role: "user",
@@ -71,7 +72,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: faker.string.uuid(),
+        id: faker.datatype.uuid(),
         username: "user_davide",
         password: generateHash("pass123"),
         role: "user",

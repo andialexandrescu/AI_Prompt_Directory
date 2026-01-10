@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/andialexandrescu/AI_Prompt_Directory#readme",
   "dependencies": {
-    "@faker-js/faker": "^10.2.0",
+    "@faker-js/faker": "^7.6.0",
     "bcryptjs": "^3.0.3",
     "express": "^5.2.1",
     "faker-js": "^1.0.0",
