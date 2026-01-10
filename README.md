@@ -43,6 +43,10 @@ There will be two user roles: admin (dealing with posts to delete them (if they 
 
 4. LLM providers have an assigned ranking number based on evaluation results ratings. Since ratings are assigned to individual LLM models, each provider's ranking is calculated by averaging the ratings of all its associated models. Providers are assigned ordinal rankings (1 being the best, 2 being the second best etc) based on their averageRating in descending order. Providers can be queried and sorted by their ranking asc or desc.
 
+5. LLM models can be filtered and sorted based on their following specs:
+   - **contextWindow** (the maximum number of tokens the model can process in a single request): users can filter models to find those with context windows above or below a specific threshold
+   - **speedTokensPerSec** (the processing speed measured in tokens per second): users can filter to find models above a threshold or below a threshold
+
 ## LLM provider chatroom workflow
 
 ### User enters the chat room for a specific LLM provider => User submits a simple text message => The message is displayed in the chat room and is visible to all users for 3 minutes => After 3 minutes, the message automatically disappears from the chat room (is deleted from the DB) => (optional) Admin can moderate chat rooms and remove inappropriate messages before the 3-minute expiration if needed

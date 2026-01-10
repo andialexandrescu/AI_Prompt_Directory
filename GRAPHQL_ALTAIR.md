@@ -575,3 +575,20 @@ query GetHighlightedForProvider {
   }
 }
 ```
+
+```graphql
+query getLLMModelsGTEContextWindowSpeedTokensPerSec{
+  getAllLLMModels(
+    contextWindowMin: 200000,
+    speedTokensPerSecMin: 100,
+    sortBy: "speedTokensPerSec",
+    sortOrder: "desc"
+  ) {
+    id
+    name
+    contextWindow
+    speedTokensPerSec
+    averageRating
+  }
+}
+```
