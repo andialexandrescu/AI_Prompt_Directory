@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class LLMProvider extends Model {
     static associate(models) {
       LLMProvider.hasMany(models.LLMModel, { foreignKey: 'llmProviderId' });
+      LLMProvider.hasOne(models.ChatRoom, { foreignKey: 'llmProviderId' });
     }
   }
   LLMProvider.init({

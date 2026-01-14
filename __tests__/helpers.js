@@ -20,7 +20,7 @@ const createTestUser = async (userData = {}) => {
         role: data.role,
     });
 
-    const token = jwt.sign({ sub: user.id }, JWT_SECRET_KEY);
+    const token = jwt.sign({ sub: user.id, role: user.role }, JWT_SECRET_KEY);
 
     return { user, token, plainPassword: data.password };
 };

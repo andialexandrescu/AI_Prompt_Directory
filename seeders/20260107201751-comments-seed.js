@@ -33,7 +33,7 @@ module.exports = {
         updatedAt: new Date()
       });
 
-      const numFakerComments = faker.number.int({ min: 1, max: 4 });
+      const numFakerComments = faker.datatype.number({ min: 1, max: 4 });
       for (let i = 0; i < numFakerComments; i++) {
         const user = faker.helpers.arrayElement(userRows);
         comments.push({
